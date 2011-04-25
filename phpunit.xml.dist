@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<!-- see http://www.phpunit.de/wiki/Documentation -->
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnFailure="false">
+
+  <testsuites>
+    <testsuite name="Common Test Suite">
+      <directory suffix=".php">tests/Versionable/Tests/Common</directory>
+    </testsuite>
+  </testsuites>
+
+  <logging>
+    <log type="coverage-html"
+         target="../build/tests/report/coverage"
+         charset="UTF-8"
+         yui="true"
+         highlights="true"/>
+    <log type="testdox-html"
+         target="../build/tests/report/testdox.html"/>
+    <log type="junit"
+         target="../build/tests/report/logfile.xml"
+         logIncompleteSkipped="false"/>
+  </logging>
+
+  <filter>
+    <whitelist>
+      <directory suffix=".php">src</directory>
+    </whitelist>
+  </filter>
+
+</phpunit>
