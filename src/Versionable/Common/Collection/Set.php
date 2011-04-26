@@ -6,7 +6,7 @@ namespace Versionable\Common\Collection;
  * A unique collection of elements
  *
  */
-class Set extends Collection implements SetInterface, \Serializable
+abstract class Set extends Collection implements SetInterface, \Serializable
 {
   public function __construct(array $elements = array())
   {
@@ -14,7 +14,7 @@ class Set extends Collection implements SetInterface, \Serializable
   }
 
     /**
-   * Addings element to Set unless it already exists with the set
+   * Addings element to Set unless it already exists within the set
    *
    * @param scalar $element
    * @throws \InvalidArgumentException

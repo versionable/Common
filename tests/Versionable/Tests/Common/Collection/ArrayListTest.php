@@ -36,12 +36,18 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase
      */
     public function testSet()
     {
-      $this->object->add(100);
-      $this->object->set(0, 200);
+      $one = new \stdClass();
+      $one->name = 'one';
+      
+      $two = new \stdClass();
+      $two->name = 'two';
+      
+      $this->object->add($one);
+      $this->object->set(0, $two);
 
       $elements = $this->readAttribute($this->object, 'elements');
 
-      $this->assertEquals(200, $elements[0]);
+      $this->assertEquals($two, $elements[0]);
     }
 
     public function testSetOutOfBounds()
@@ -55,16 +61,24 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddAt()
     {
-      $this->object->addAt(0, 100);
+      $object = new \stdClass();
+      $object->name = 'one';
+      
+      $this->object->addAt(0, $object);
 
       $elements = $this->readAttribute($this->object, 'elements');
-      $this->assertEquals(100, $elements[0]);
+      $this->assertEquals($object, $elements[0]);
     }
 
     public function testAddAtFail()
     {
       $this->setExpectedException('\OutOfBoundsException');
-
-      $this->object->addAt(1, 100);
+      
+      $this->object->addAt(1, new \stdClass());
+    }
+    
+    public function testAddAtAll()
+    {
+      //$this->
     }
 }

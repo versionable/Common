@@ -14,4 +14,14 @@ interface ListInterface extends CollectionInterface
   public function set($index, $element);
 
   public function addAt($index, $element);
+  
+  public function addAllAt($index, ListInterface $elements);
+  
+  public function get($index);
+  
+  public function indexOf($element);
+  
+  public function removeAt($index);
+  
+  public function subList($fromIndex, $toIndex);
 }

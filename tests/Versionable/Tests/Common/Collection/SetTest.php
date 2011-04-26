@@ -2,8 +2,7 @@
 namespace Versionable\Tests\Common\Collection;
 
 use Versionable\Common\Collection\Set;
-
-use Versionable\Common\Collection\HashSet;
+use \Versionable\Common\Collection\MockComparableItem as Element;
 
 /**
  * Test class for Set.
@@ -15,6 +14,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
      * @var Set
      */
     protected $object;
+    
+    protected $elements = array();
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -23,6 +24,12 @@ class SetTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->object = $this->getMockForAbstractClass('\\Versionable\\Common\\Collection\\Set');
+        
+        $this->elements['alpha'] = new Element('alpha');
+        $this->elements['bravo'] = new Element('bravo');
+        $this->elements['charlie'] = new Element('charlie');
+        $this->elements['delta'] = new Element('delta');
+        $this->elements['echo'] = new Element('echo');
     }
 
     /**
@@ -35,54 +42,55 @@ class SetTest extends \PHPUnit_Framework_TestCase
     
     public function testAdd()
     {
-      $this->object->add(1);
+      $this->object->add($this->elements['alpha']);
     }
 
 
     public function testAddNoDuplicates() {
       $this->setExpectedException('\\InvalidArgumentException');
-      $this->object->add(100);
-      $this->object->add(100);
+      $element = $this->elements['alpha'];
+      $this->object->add($element);
+      $this->object->add($element);
     }
    
     public function testAddAll()
     {
-      $set = new Set();
-      $set->add(100);
-      $set->add(200);
-      $set->add(300);
+      $set = $this->getMockForAbstractClass('\\Versionable\\Common\\Collection\\Set');
+      $set->add($this->elements['alpha']);
+      $set->add($this->elements['bravo']);
+      $set->add($this->elements['charlie']);
 
       $this->object->addAll($set);
 
       $elements = $this->readAttribute($this->object, 'elements');
-      $this->assertEquals(array(100,200,300), $elements);
+      $this->assertEquals(array($this->elements['alpha'],$this->elements['bravo'],$this->elements['charlie']), $elements);
     }
 
     public function testAddAllNoDuplicates() 
     {
       $this->setExpectedException('\\InvalidArgumentException');
 
-      $this->object->add(100);
+      $this->object->add($this->elements['alpha']);
 
-      $set = new Set();
-      $set->add(100);
-      $set->add(200);
-      $set->add(300);
+      $set = $this->getMockForAbstractClass('\\Versionable\\Common\\Collection\\Set');
+      $set->add($this->elements['alpha']);
+      $set->add($this->elements['bravo']);
+      $set->add($this->elements['charlie']);
 
       $this->object->addAll($set);
     }
     
     public function testSerialize()
     {
-      $this->object->add(100);
-      $this->object->add(200);
+      $this->object->add($this->elements['alpha']);
+      $this->object->add($this->elements['bravo']);
       
       $this->assertEquals(serialize($this->readAttribute($this->object, 'elements')), $this->object->serialize());
     }
     
     public function testUnserialize()
     {
-      $elements = array(100, 200);
+      $elements = array($this->elements['alpha'], $this->elements['bravo']);
       
       $this->object->unserialize(serialize($elements));
       
