@@ -107,7 +107,12 @@ abstract class Collection implements CollectionInterface
 
   public function isValid($element) 
   {
-    return true;
+    if (is_object($element))
+    {
+      return true;
+    }
+    
+    return false;
   }
 
   /**
