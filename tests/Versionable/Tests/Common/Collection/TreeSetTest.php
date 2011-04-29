@@ -3,7 +3,7 @@ namespace Versionable\Tests\Common\Collection;
 
 use Versionable\Common\Collection\TreeSet;
 use Versionable\Common\Collection\MockComparableItem;
-use Versionable\Common\Order\Comparator;
+use Versionable\Common\Compare\Comparator;
 
 /**
  * Test class for Set.
@@ -54,6 +54,27 @@ class TreeSetTest extends \PHPUnit_Framework_TestCase
       $this->assertEquals($expected, $this->readAttribute($this->object, 'elements'));
     }
     
+    public function testAddInvalid()
+    {
+      $this->setExpectedException('\\InvalidArgumentException');
+      $this->object->add(new \stdClass());
+    }
+
+    public function testAddComparator()
+    {
+      $this->items = array();
+      $this->items['alpha'] = new MockComparableItem('alpha');
+      $this->items['bravo'] = new MockComparableItem('bravo');
+      $this->items['charlie'] = new MockComparableItem('charlie');
+      
+      
+      $this->object = new TreeSet(array($this->items['charlie'], $this->items['bravo']));
+      
+      $this->object->add($this->items['alpha']);
+      
+      $this->assertEquals(array_values($this->items), $this->readAttribute($this->object, 'elements'));
+    }
+
     public function testRemove()
     {
       $this->items['alpha'] = new MockComparableItem('alpha');
@@ -93,13 +114,12 @@ class TreeSetTest extends \PHPUnit_Framework_TestCase
     
     public function testComparator()
     {
-      $comparator = new Comparator;
-      $this->assertEquals($comparator, $this->object->comparator());
+      $this->assertNull($this->object->comparator());
     }
     
     public function testComparatorCustom()
     {
-      $comparator = $this->getMock('Versionable\Common\Order\ComparatorInterface');
+      $comparator = $this->getMock('Versionable\Common\Compare\ComparatorInterface');
       $this->object = new TreeSet(array(), $comparator);
       $this->assertEquals($comparator, $this->object->comparator());
     }

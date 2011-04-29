@@ -2,7 +2,7 @@
 
 namespace Versionable\Common\Collection;
 
-abstract class GenericList extends Collection implements ListInterface
+abstract class AbstractList extends Collection implements ListInterface
 {
   /**
    * Inserts the specified element at the specified position in this list.
@@ -14,10 +14,7 @@ abstract class GenericList extends Collection implements ListInterface
    */
   public function addAt($index, $element) 
   {
-    if ($this->isValid($element) === false)
-    {
-      throw new \InvalidArgumentException('Invalid element value for collection');
-    }
+    $this->doCheckValid($element);
     
     if ($index == 0 || $index < $this->size())
     {
@@ -29,20 +26,19 @@ abstract class GenericList extends Collection implements ListInterface
     throw new \OutOfBoundsException('Invalid index');
   }
   
-  public function addAllAt($index, ListInterface $elements)
+  public function addAllAt($index, ListInterface $list)
   {
-    foreach ($elements as $element)
+    foreach ($list as $element)
     {
-      if ($this->isValid($element) === false)
-      {
-        throw new \InvalidArgumentException('Invalid element value for collection');
-      }
+      $this->doCheckValid($element);
     }
     
     $start = array_slice($this->elements, 0, $index);
     $end = array_slice($this->elements, $index);
     
-    $this->elements = array_merge($start, $elements, $end);
+    
+    $this->elements = array_merge($start, $list->toArray(), $end);
+    
   }
 
   public function get($index)
@@ -87,10 +83,7 @@ abstract class GenericList extends Collection implements ListInterface
       throw new \OutOfBoundsException('Invalid index');
     }
     
-    if ($this->isValid($element) === false)
-    {
-      throw new \InvalidArgumentException('Invalid element value for collection');
-    }
+    $this->doCheckValid($element);
 
     $this->elements[$index] = $element;
 
@@ -99,9 +92,9 @@ abstract class GenericList extends Collection implements ListInterface
   
   public function subList($fromIndex, $toIndex)
   {
-    if (isset($this->elements[$fromIndex]) && isset($this->elements[$toIndex]))
+    if (isset($this->elements[$fromIndex]) && isset($this->elements[$toIndex]) && $fromIndex < $toIndex)
     {
-      return array_splice($this->elements, $fromIndex, $toIndex - $fromIndex);
+      return array_slice($this->elements, $fromIndex, $toIndex - $fromIndex);
     }
     
     throw new \OutOfBoundsException('Invalid range');

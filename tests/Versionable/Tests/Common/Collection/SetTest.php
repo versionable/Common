@@ -2,7 +2,7 @@
 namespace Versionable\Tests\Common\Collection;
 
 use Versionable\Common\Collection\Set;
-use \Versionable\Common\Collection\MockComparableItem as Element;
+use Versionable\Common\Collection\MockComparableItem as Element;
 
 /**
  * Test class for Set.

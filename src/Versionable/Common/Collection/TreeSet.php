@@ -2,8 +2,9 @@
 
 namespace Versionable\Common\Collection;
 
-use Versionable\Common\Order\Comparator;
-use Versionable\Common\Order\ComparatorInterface;
+use Versionable\Common\Compare\Comparator;
+use Versionable\Common\Compare\ComparatorInterface;
+use Versionable\Common\Compare\ComparableInterface;
 
 class TreeSet extends Set implements SortedSetInterface
 {
@@ -17,16 +18,13 @@ class TreeSet extends Set implements SortedSetInterface
     {
       $this->setComparator($comparator);
     }
+    
+    $this->sort();
   }
     
   public function comparator()
   {
-    if (false === is_null($this->comparator))
-    {
-      return $this->comparator;
-    }
-    
-    return new Comparator();
+    return $this->comparator;
   }
 
   public function add($element)
@@ -75,6 +73,16 @@ class TreeSet extends Set implements SortedSetInterface
     return null;
   }
   
+  public function isValid($element)
+  {
+    if (parent::isValid($element) && $element instanceof ComparableInterface)
+    {
+      return true;
+    }    
+    
+    return false;
+  }
+
   public function last()
   {
     if ($this->isEmpty() === false)
@@ -153,7 +161,14 @@ class TreeSet extends Set implements SortedSetInterface
   
   protected function sort()
   {
-    usort($this->elements, array($this->comparator(), 'compare'));
+    if (false === is_null($this->comparator()))
+    {
+      usort($this->elements, array($this->comparator(), 'compare'));
+    }
+    else
+    {
+      sort($this->elements);
+    }
   }
   
 }

@@ -18,10 +18,7 @@ abstract class Collection implements CollectionInterface
    */
   public function add($element) 
   {
-    if ($this->isValid($element) === false)
-    {
-      throw new \InvalidArgumentException('Invalid element value for collection');
-    }
+    $this->doCheckValid($element);
     
     $this->elements[] = $element;
   }
@@ -225,12 +222,17 @@ abstract class Collection implements CollectionInterface
   {   
     foreach ($elements as $element)
     {
-      if ($this->isValid($element) === false)
-      {
-        throw new \InvalidArgumentException('Invalid element value for collection');
-      }
+      $this->doCheckValid($element);
     }
     
     $this->elements = \array_merge($this->elements, $elements);
+  }
+  
+  protected function doCheckValid($element)
+  {
+    if ($this->isValid($element) === false)
+    {
+      throw new \InvalidArgumentException('Invalid element value for collection');
+    }    
   }
 }

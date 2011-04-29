@@ -2,7 +2,7 @@
 
 namespace Versionable\Common\Collection;
 
-use Versionable\Common\Order\ComparableInterface;
+use Versionable\Common\Compare\ComparableInterface;
 
 class MockComparableItem implements ComparableInterface
 {
@@ -13,14 +13,20 @@ class MockComparableItem implements ComparableInterface
     $this->name = $name;
   }
   
+  public function getName()
+  {
+    return $this->name;
+  }
+
+
   public function compareTo($object)
   {
-    if ($this->name < $object->name)
+    if ($this->getName() < $object->getName())
     {
       return -1;
     }
     
-    if ($this->name > $object->name)
+    if ($this->getName() > $object->getName())
     {
       return 1;
     }

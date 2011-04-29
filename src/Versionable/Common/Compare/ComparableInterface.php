@@ -1,6 +1,6 @@
 <?php
 
-namespace Versionable\Common\Order;
+namespace Versionable\Common\Compare;
 
 interface ComparableInterface
 {

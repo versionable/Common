@@ -2,6 +2,7 @@
 namespace Versionable\Tests\Common\Collection;
 
 use Versionable\Common\Collection\ArrayList;
+use Versionable\Common\Collection\MockComparableItem as Element;
 
 /**
  * Test class for ArrayList.
@@ -13,14 +14,22 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase
      * @var ArrayList
      */
     protected $object;
+    
+    protected $elements = array();
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp()
-    {
-        $this->object = new ArrayList;
+    {     
+        $this->elements['alpha'] = new Element('alpha');
+        $this->elements['bravo'] = new Element('bravo');
+        $this->elements['charlie'] = new Element('charlie');
+        $this->elements['delta'] = new Element('delta');
+        $this->elements['echo'] = new Element('echo');        
+        
+        $this->object = new ArrayList(array_values($this->elements));
     }
 
     /**
@@ -30,55 +39,28 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
-
-    /**
-     * @todo Implement testSet().
-     */
-    public function testSet()
+    
+    public function testRemoveRange()
     {
-      $one = new \stdClass();
-      $one->name = 'one';
+     
+      $expected = array($this->elements['alpha'], $this->elements['bravo'], $this->elements['echo']);
       
-      $two = new \stdClass();
-      $two->name = 'two';
+      $this->object->removeRange(2, 4);
       
-      $this->object->add($one);
-      $this->object->set(0, $two);
-
-      $elements = $this->readAttribute($this->object, 'elements');
-
-      $this->assertEquals($two, $elements[0]);
+      $this->assertEquals($expected, $this->readAttribute($this->object, 'elements')); 
     }
-
-    public function testSetOutOfBounds()
-    {
-      $this->setExpectedException('\\OutOfBoundsException');
-      $this->object->set(1, 200);
-    }
-
-    /**
-     * @todo Implement testAddAt().
-     */
-    public function testAddAt()
-    {
-      $object = new \stdClass();
-      $object->name = 'one';
-      
-      $this->object->addAt(0, $object);
-
-      $elements = $this->readAttribute($this->object, 'elements');
-      $this->assertEquals($object, $elements[0]);
-    }
-
-    public function testAddAtFail()
+    
+    public function testRangeRemoveOutofBounds()
     {
       $this->setExpectedException('\OutOfBoundsException');
       
-      $this->object->addAt(1, new \stdClass());
+      $this->object->removeRange(0, 100);
     }
     
-    public function testAddAtAll()
+    public function testRangeRemoveBadRange()
     {
-      //$this->
+      $this->setExpectedException('\OutOfBoundsException');
+      
+      $this->object->removeRange(4, 0);
     }
 }
