@@ -4,7 +4,7 @@ namespace Versionable\Common\Collection;
 
 use Versionable\Common\Compare\ComparableInterface;
 
-interface CollectionInterface extends \IteratorAggregate
+interface CollectionInterface extends \IteratorAggregate, \Countable
 {
 
   /**
@@ -74,12 +74,6 @@ interface CollectionInterface extends \IteratorAggregate
    * @return boolean
    */
   public function retainAll(CollectionInterface $collection = NULL);
- 
-  /**
-   *
-   * @return integer
-   */
-  public function size();
   
   /**
    *

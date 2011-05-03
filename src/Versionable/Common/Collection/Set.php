@@ -6,7 +6,7 @@ namespace Versionable\Common\Collection;
  * A unique collection of elements
  *
  */
-abstract class Set extends Collection implements SetInterface, \Serializable
+class Set extends Collection implements SetInterface, \Serializable
 {
   public function __construct(array $elements = array())
   {

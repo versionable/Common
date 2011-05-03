@@ -67,13 +67,24 @@ abstract class Collection implements CollectionInterface
     return true;
   }
   
+  /**
+   * Implements Countable.
+   * Returns the number of elements in the collection
+   *
+   * @return integer
+   */
+  public function count()
+  {
+    return count($this->elements);
+  }
+  
   public function clear()
   {
     $this->elements = array();
   }
 
   /**
-   * Returns ArrayIterator
+   * Implements ArrayAgregator
    *
    * @return \ArrayIterator
    */
@@ -196,16 +207,6 @@ abstract class Collection implements CollectionInterface
     }
 
     return true;
-  }
-
-  /**
-   * Returns the number of elements in the collection
-   *
-   * @return integer
-   */
-  public function size()
-  {
-    return count($this->elements);
   }
 
   /**

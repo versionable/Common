@@ -23,7 +23,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = $this->getMockForAbstractClass('\\Versionable\\Common\\Collection\\Set');
+        $this->object = new Set();
         
         $this->elements['alpha'] = new Element('alpha');
         $this->elements['bravo'] = new Element('bravo');
