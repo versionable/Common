@@ -42,10 +42,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
       $this->assertEmpty($this->readAttribute($this->object, 'elements'));
     }
 
-    public function testSize()
+    public function testCount()
     {
       $elements = $this->readAttribute($this->object, 'elements');
-      $this->assertEquals(count($elements), $this->object->size());
+      $this->assertEquals(count($elements), $this->object->count());
     }
 
     public function testIsEmpty()

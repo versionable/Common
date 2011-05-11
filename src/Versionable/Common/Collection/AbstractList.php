@@ -16,7 +16,7 @@ abstract class AbstractList extends Collection implements ListInterface
   {
     $this->doCheckValid($element);
     
-    if ($index == 0 || $index < $this->size())
+    if ($index == 0 || $index < $this->count())
     {
       $this->elements[$index] = $element;
 
@@ -43,7 +43,7 @@ abstract class AbstractList extends Collection implements ListInterface
 
   public function get($index)
   {
-    if ($index < $this->size())
+    if ($index < $this->count())
     {
       return $this->elements[$index];
     }

@@ -1,6 +1,8 @@
 <?php
-namespace Versionable\Common\Collection;
+namespace Versionable\Tests\Common\Collection;
 
+use Versionable\Common\Collection\Map;
+use Versionable\Common\Collection\Set;
 
 require_once '/Users/stuart/NetBeansProjects/Common/src/Versionable/Common/Collection/Map.php';
 
@@ -31,159 +33,179 @@ class MapTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
-
-    /**
-     * @todo Implement testClear().
-     */
+    
     public function testClear()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->object->put('one', new \stdClass());
+        $this->object->put('two', new \stdClass());
+        
+        $this->object->clear();
+        
+        $this->assertEquals(array(), $this->readAttribute($this->object, 'elements'));
+        
     }
 
-    /**
-     * @todo Implement testContainsKey().
-     */
-    public function testContainsKey()
+    public function testContainsKeyTrue()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+        $key = 'one';
+        $this->object->put($key, new \stdClass()); 
 
-    /**
-     * @todo Implement testContainsValue().
-     */
-    public function testContainsValue()
+        $this->assertTrue($this->object->containsKey($key));
+    }
+    
+    public function testContainsKeyFalse()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $key = 'one';
+        $this->object->put($key, new \stdClass()); 
+
+        $this->assertFalse($this->object->containsKey('two'));
     }
 
-    /**
-     * @todo Implement testEntrySet().
-     */
+    public function testContainsValueTrue()
+    {
+        $object = new \stdClass();
+        $this->object->put('one', $object); 
+
+        $this->assertTrue($this->object->containsValue($object));
+    }
+    
+    public function testContainsValueFalse()
+    {
+        $object = new \stdClass();
+        $this->object->put('one', $object); 
+        
+        $object2 = new \stdClass();
+
+        $this->assertFalse($this->object->containsValue($object2));
+    }    
+
     public function testEntrySet()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $set = new Set(array_values($this->readAttribute($this->object, 'elements')));
+        $this->assertEquals($set, $this->object->entrySet());
     }
 
-    /**
-     * @todo Implement testEquals().
-     */
-    public function testEquals()
+    public function testEqualsTrue()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->object->put('one', new \stdClass());
+        
+        $map = clone $this->object;
+        
+        $this->assertTrue($this->object->equals($map));
+        
+    }
+    
+    public function testEqualsFalse()
+    {
+        $this->object->put('one', new \stdClass());
+        
+        $map = new Map();
+        
+        $this->assertFalse($this->object->equals($map));
+        
     }
 
-    /**
-     * @todo Implement testGet().
-     */
     public function testGet()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $value = new \stdClass();
+        $this->object->put('one', $value);
+        
+        $this->assertEquals($value, $this->object->get('one'));
+    }
+    
+    public function testGetNull()
+    {
+        $value = new \stdClass();
+        $this->object->put('one', $value);
+        
+        $this->assertNull($this->object->get('two'));
     }
 
-    /**
-     * @todo Implement testHashCode().
-     */
     public function testHashCode()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $hash = sha1('Versionable\Common\Collection\Map' . serialize($this->readAttribute($this->object, 'elements')));
+        
+        $this->assertEquals($hash, $this->object->hashCode());
     }
 
-    /**
-     * @todo Implement testIsEmpty().
-     */
+
     public function testIsEmpty()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+      $elements = $this->readAttribute($this->object, 'elements');
+      $this->assertEquals(empty($elements), $this->object->isEmpty());
+      $this->object->put('one', new \stdClass());
+      $elements = $this->readAttribute($this->object, 'elements');
+      $this->assertEquals(empty($elements), $this->object->isEmpty());
     }
 
-    /**
-     * @todo Implement testIsValid().
-     */
     public function testIsValid()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+      $this->assertTrue($this->object->isValid(new \stdClass()));
     }
 
-    /**
-     * @todo Implement testKeySet().
-     */
     public function testKeySet()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $keys = $this->object->keySet();
+        
+        $expected = new Set(array_keys($this->readAttribute($this->object, 'elements')));
+        
+        $this->assertEquals($expected, $keys);
     }
 
-    /**
-     * @todo Implement testPut().
-     */
     public function testPut()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $key = 'one';
+        $value = new \stdClass();
+        
+        $this->object->put($key, $value);
+        
+        $actual = $this->readAttribute($this->object, 'elements');
+        
+        $this->assertEquals(array($key => $value), $actual);
     }
 
-    /**
-     * @todo Implement testPutAll().
-     */
     public function testPutAll()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $elements = array('one' => new \stdClass(), 'two' => new \stdClass());
+        $map = new Map();
+        $map->put(key($elements), current($elements));
+        next($elements);
+        $map->put(key($elements), current($elements));
+        
+        $this->object->putAll($map);
+        
+        $actual = $this->readAttribute($this->object, 'elements');
+       
+        $this->assertEquals($elements, $actual);
     }
 
-    /**
-     * @todo Implement testRemove().
-     */
     public function testRemove()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $key = 'one';
+        $value = new \stdClass();
+        
+        $this->object->put($key, $value);
+        
+        $actual = $this->readAttribute($this->object, 'elements');
+        
+        $this->assertEquals(array($key => $value), $actual);
+        
+        $this->object->remove($key);
+        
+        $actual = $this->readAttribute($this->object, 'elements');
+        
+        $this->assertEmpty($actual);
     }
 
-    /**
-     * @todo Implement testSize().
-     */
-    public function testSize()
+    public function testCount()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->object->put('one', new \stdClass());
+        $this->object->put('two', new \stdClass());
+        $this->object->put('three', new \stdClass());
+        $this->object->put('four', new \stdClass());
+        $this->object->put('five', new \stdClass());
+        
+        $this->assertEquals(5, $this->object->count());
     }
 
     /**
@@ -191,10 +213,9 @@ class MapTest extends \PHPUnit_Framework_TestCase
      */
     public function testToArray()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->object->put('one', new \stdClass());
+        $this->object->put('two', new \stdClass());
+        $this->assertEquals($this->readAttribute($this->object, 'elements'), $this->object->toArray());
     }
 
     /**
@@ -202,10 +223,8 @@ class MapTest extends \PHPUnit_Framework_TestCase
      */
     public function testValues()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->object->put('one', new \stdClass());
+        $this->object->put('two', new \stdClass());
+        $this->assertEquals(array_values($this->readAttribute($this->object, 'elements')), $this->object->values());
     }
 }
-?>

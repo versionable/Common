@@ -23,7 +23,7 @@ class Map implements MapInterface
   
   public function containsValue($value)
   {
-    if (in_array($value, $this->elements))
+    if (in_array($value, $this->elements, true))
     {
       return true;
     }
@@ -38,12 +38,12 @@ class Map implements MapInterface
   
   public function entrySet()
   {
-    return Set(array_values($this->elements));
+    return new Set(array_values($this->elements));
   }
   
   public function equals(MapInterface $map)
   {
-    if ($this->equals($map))
+    if ($map->toArray() === $this->toArray())
     {
       return true;
     }
@@ -53,7 +53,7 @@ class Map implements MapInterface
   
   public function get($key)
   {
-    if (isset($key))
+    if (isset($this->elements[$key]))
     {
       return $this->elements[$key];
     }

@@ -87,7 +87,7 @@ class TreeSet extends Set implements SortedSetInterface
   {
     if ($this->isEmpty() === false)
     {
-      return $this->elements[$this->size() - 1];
+      return $this->elements[$this->count() - 1];
     }
     
     return null;
