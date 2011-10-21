@@ -235,4 +235,17 @@ class MapTest extends \PHPUnit_Framework_TestCase
     {
       $this->assertFalse($this->object->isValid('test'));
     }
+
+    public function testDoCheckValidException()
+    {
+      $this->setExpectedException('\InvalidArgumentException');
+
+      $method = new \ReflectionMethod(
+        $this->object, 'doCheckValid'
+      );
+
+      $method->setAccessible(true);
+
+      $method->invoke($this->object, 'test');
+    }
 }
