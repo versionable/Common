@@ -225,4 +225,14 @@ class MapTest extends \PHPUnit_Framework_TestCase
         $this->object->put('two', new \stdClass());
         $this->assertEquals(array_values($this->readAttribute($this->object, 'elements')), $this->object->values());
     }
+
+    public function testGetIterator()
+    {
+      $this->assertInstanceOf('\ArrayIterator', $this->object->getIterator());
+    }
+
+    public function testNotValidObject()
+    {
+      $this->assertFalse($this->object->isValid('test'));
+    }
 }
