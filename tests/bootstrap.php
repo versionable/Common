@@ -1,10 +1,14 @@
 <?php
 
-require_once(__DIR__.'/../vendor/autoload/src/Versionable/Autoload/Autoload.php');
+function includeIfExists($file)
+{
+    if (file_exists($file)) {
+        return include $file;
+    }
+}
 
-use Versionable\Autoload\Autoload;
-
-$al = new Autoload();
-$al->registerNamespace('Versionable\Tests\Common', __DIR__.'/../tests');
-$al->registerNamespace('Versionable\Common', __DIR__.'/../src');
-$al->register();
+if ((!$loader = includeIfExists(__DIR__.'/../vendor/autoload.php')) && (!$loader = includeIfExists(__DIR__.'/../../../autoload.php'))) {
+    die('You must set up the project dependencies, run the following commands:'.PHP_EOL.
+        'curl -s http://getcomposer.org/installer | php'.PHP_EOL.
+        'php composer.phar install --dev'.PHP_EOL);
+}
